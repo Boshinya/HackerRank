@@ -1,0 +1,2 @@
+﻿Action,Entity Unique Id,Entity Type,Primary Name,Aliases,Gender,Nationality (Individual) or Registered Country (Organisation) or Country (Vessel),Date Of Birth,Country Of Birth,Country Location,Region,City,Street,Post / Zip Code ,Identity Type,Identity Number,Issuing Country,Employment History,Further Information,Source Links,IMO Number (Vessels),Notes
+InsertUpdate,autoTest11,INDIVIDUAL,Jane Doe,,FEMALE,USA,05-Feb-60,UKR,IND,,London,Collerne,,,,,,,,,
