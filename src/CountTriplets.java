@@ -1,6 +1,8 @@
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CountTriplets {
@@ -41,11 +43,30 @@ public class CountTriplets {
     }
 
 
+    public long countTriplets(List<Long> arr, long r) {
+        Map<Long, Long> squareValues = new HashMap<>();
+        Map<Long, Long> cubeValues = new HashMap<>();
+        Long count = 0L;
+        for (Long singleValue : arr) {
+            Long square = singleValue * r;
+            count += cubeValues.getOrDefault(singleValue, 0L);
+            Long squareCount = squareValues.getOrDefault(singleValue, 0L);
+            if(squareCount != 0) {
+                cubeValues.put(square, cubeValues.getOrDefault(square, 0L) + squareCount);
+            }
+            squareValues.put(square, squareValues.getOrDefault(square, 0L) + 1);
+        }
+        return count;
+    }
+
+
     @Test
     public void testTriplets() {
         long[] input = new long[] {1, 2, 2, 4};
 
-        long count = getTriplets(input,2);
+        List<Long> in = Arrays.asList(1L, 5L, 5L, 25L, 125L);
+
+        long count = countTriplets(in,5);
 
         System.out.println(count);
     }
