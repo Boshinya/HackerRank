@@ -1,8 +1,10 @@
 import org.junit.Test;
 
 import java.util.Comparator;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class ActivityNotification {
 
@@ -45,6 +47,9 @@ public class ActivityNotification {
         System.out.println("Frequency" + freq);
         return freq;
     }
+
+
+
 
     private static void addNumbers(int number, PriorityQueue<Integer> lowers, PriorityQueue<Integer> highers) {
             if (lowers.size() == 0 || number < lowers.peek()) {
@@ -125,6 +130,49 @@ public class ActivityNotification {
         return median;
     }
 
+
+    public static int activityNotificationsMoin(int[] expenditure, int d) {
+        int count = 0;
+        TreeMap<Integer, Integer> numberCount = new TreeMap<>();
+        for (int i=0; i<d; i++) {
+            numberCount.compute(expenditure[i], (k, v) -> (v == null) ? 1 : v+1);
+        }
+        int i=d;
+        do {
+            int limit=0 ;
+            int probableMidPointInArray=0;
+            for (Map.Entry<Integer, Integer> entry : numberCount.entrySet()) {
+                probableMidPointInArray+=entry.getValue();
+                int lookBackDays = probableMidPointInArray * 2;
+                if (lookBackDays >= d) {
+                    if (lookBackDays == d) { // almost an edge case for even - 1
+                        limit = entry.getKey();
+                    } else {
+                        if (limit != 0) { // almost an edge case for even - 2
+                            limit = (limit + entry.getKey());
+                        } else {
+                            limit = entry.getKey() * 2;
+                        }
+                        break;
+                    }
+                }
+            }
+            int currentDayValue = expenditure[i];
+            if (currentDayValue >= limit) {
+                count++;
+            }
+            int valueToBeRemoved = expenditure[i - d];
+            Integer orDefault = numberCount.getOrDefault(valueToBeRemoved, 1);
+            if (orDefault == 1) {
+                numberCount.remove(valueToBeRemoved);
+            } else {
+                numberCount.put(valueToBeRemoved, orDefault -1);
+            }
+            numberCount.compute(currentDayValue, (k, v) -> (v == null) ? 1 : v+1);
+        } while (++i < expenditure.length);
+        return count;
+    }
+
     @Test
     public void testNotification(){
         Scanner scanner = new Scanner(System.in);
@@ -147,6 +195,6 @@ public class ActivityNotification {
 
         int[] a = new int[] {10, 20, 30, 40, 50 };
         int d1 = 3;
-        System.out.println(activityNotifications(a,d1));
+        System.out.println(activityNotificationsMoin(a,d1));
     }
 }

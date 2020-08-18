@@ -26,7 +26,7 @@ public class CSVFileReader {
             throw new IOException("Problem with reading files");
         }
 
-        lines.stream().forEach(System.out::println);
+        lines.forEach(System.out::println);
 
     }
 
